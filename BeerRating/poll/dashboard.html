@@ -1,0 +1,926 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <!-- Required meta tags for bootstrap -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <link href="../Content/bootstrap.css" rel="stylesheet" />
+   <link href="../Content/spinner.css" rel="stylesheet" />
+   <link href="../Content/poll_db.css?v=4" rel="stylesheet" />
+   <link href="../Content/ios_switch.css?v=4" rel="stylesheet" />
+
+   <title>Kontrollpanel</title>
+</head>
+<body>
+   <style>
+      body {
+         background-image: url('../Content/geometry2.png');
+         /*background-image: url('../Content/red-christmas-seamless-pattern-toys-balls-33826267.jpg');*/
+         /*background-image: url('../Content/julebakgrunn.png');*/
+         /*background-image: url('../Content/23642359-beer-drops-seamless-texture.jpg');*/
+         /*background-image: url('../Content/christmas-colour-50-perc.png');*/
+         background-repeat: repeat-y repeat-x;
+      }
+
+      input[type=checkbox] {
+         transform: scale(2.0);
+      }
+
+      td img {
+         width: 40px;
+         height: auto;
+      }
+
+      .topcorner {
+         position: absolute;
+         top: 15px;
+         right: 15px;
+         z-index: 150;
+      }
+
+
+      .topcorner2 {
+         position: absolute;
+         top: 400px;
+         right: 15px;
+      }
+
+      #canvas_owner {
+         position: absolute;
+         top: 400px;
+         right: 15px;
+      }
+
+      #mydivheader {
+         padding: 10px;
+         cursor: move;
+         z-index: 10;
+         background-color: red;
+         color: #fff;
+         font-weight:bold;
+         border-radius: 25px;
+      }
+
+      .rubb {
+         position: absolute;
+         top: 10px;
+         left: 800px;
+         width: 400px;
+         height: auto;
+         border: 1px solid red;
+         border-radius: 15px;
+         padding: 5px;
+         background-color: white;
+         color: red;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         z-index: 200;
+      }
+
+      #content {
+         position: relative;
+      }
+
+      .nisse img {
+         position: absolute;
+         top: 5px;
+         right: 320px;
+         width: 20%;
+         height: auto;
+      }
+
+      #content img {
+         opacity: 0;
+      }
+
+      #param_block {
+         border-radius: 25px;
+         background: rgba(255,255,255,.9);
+      }
+
+      #command_id {
+         border-radius: 25px;
+         background-color: white;
+         margin-bottom: 5px;
+         padding-left: 10px;
+         color: black;
+         text-align: center;
+         font-weight: bold
+      }
+   </style>
+   <!--<table id="excelDataTable" class="voters" style="padding:10px; width:850px"></table>-->
+   <!--<label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>-->
+   <!--<div class="container">
+      <img class="img_move" src="../Content/Full nisse.png">
+      <div class="topright">Top Right</div>
+   </div>-->
+   <!--<input id="robin_btn" type="button" class="btn btn-success btn-sm" style="width:150px;margin-left:0px;margin-top:15px;" value="TEST" />-->
+   <!--<div class="container">-->
+   <!--<input id="robin_btn" type="button" class="btn btn-success btn-sm" style="width:150px;margin-left:0px;margin-top:15px;" value="TEST" />-->
+
+
+
+
+   <div id="content" class="nisse">
+      <img src="../Content/drunk_santa.png" class="ribbon" id="rudolf" />
+   </div>
+   <div id="loading27"><div class="colorBalls"></div></div>
+
+   <!--<h1 id="run_title" class="alpha60" style="margin-left:0px;background-color:white"></h1>-->
+
+   <div id="init_group_id" hidden="hidden">
+      <div class="input-group" style="padding:10px; width:750px">
+         <input id="reg_no_txt" type="text" name="message" class="form-control input-sm" autocomplete="off" placeholder="Skriv inn navn på ny blindtest..." />
+         <span style="margin-left:10px" class="input-group-text">eller</span>
+         <input id="a_run_id" type="text" name="message" class="form-control input-sm" style="margin-left:10px" autocomplete="off" placeholder="Velg eksisterende test-ID..." />
+         <input id="reg_no_btn" type="button" class="btn btn-success btn-sm" style="width:120px;margin-left:10px;" value="Sett igang test">
+      </div>
+   </div>
+
+   <div id="warning" class="rubb" hidden="hidden"></div>
+
+   <div id="param_block" style="padding:10px;width:850px;margin-left:20px;margin-top:20px;" hidden="hidden">
+      <!--blood red -->
+      <h1 id="run_title" style="color:#8a0707"></h1>
+      <!--<div>
+         <table style="background-color:white;">
+            <tr>
+               <td colspan="2" style="padding:5px">
+                  <input id="__reg_no_txt" type="text" name="message" class="form-control input-sm" autocomplete="off" placeholder="Skriv inn navn på ny blindtest..." />
+               </td><td></td>
+               <td style="padding:5px;text-align:center;vertical-align:middle">alternativ</td>
+               <td style="padding:5px">
+                  <input id="__a_run_id" type="text" name="message" class="form-control input-sm" style="margin-left:10px" autocomplete="off" placeholder="Velg eksisterende test-ID..." />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input id="__checkbox_id" type="checkbox" name="checkbox" value="value" style="margin-top:20px;margin-left:10px; width:20px;" title="Hak av denne når det er klart å sende inn stemmer." />
+               </td>
+               <td colspan="3" style="padding-left:50px">
+                  <input id="__reg_votes_btn" type="button" disabled="disabled" class="btn btn-outline-success btn-sm" style="width:150px;margin-left:0px;margin-top:10px;" value="Send inn stemmer" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>
+               </td>
+               <td colspan="3" style="padding-left:50px">
+                  <label class="form-switch"><input type="checkbox"><i></i>Hallas</label>
+               </td>
+            </tr>
+         </table>
+      </div>-->
+
+      <div id="vote_group_id">
+         <p id="command_id" style="font-size:large;margin-bottom:0px;margin-left:0px;color:#8a0707"></p>
+
+         <div class="input-group" style="padding-left:0px; width:770px;margin-top:10px">
+            <input id="reg_entity_txt" type="text" name="message" class="form-control input-sm" style="width:420px;" autocomplete="off" placeholder="Skriv inn hvilket øl som ble testet..." />
+            <input id="reg_abv_txt" type="text" name="message" class="form-control input-sm" style="margin-left:10px;width:auto;" autocomplete="off" placeholder="Skriv inn ABV (uten %)" />
+
+            <input id="reg_votes_btn" type="button" disabled="disabled" class="btn btn-success btn-sm" style="width:150px;margin-left:0px;margin-top:15px;" value="Send inn stemmer" />
+            <input id="checkbox_id" type="checkbox" name="checkbox" value="value" style="margin-top:25px;margin-left:10px; width:20px;" title="Hak av denne når det er klart å sende inn stemmer." />
+            <span style="margin-left:10px;padding-top:15px">Bekreft innsendelse</span>
+            <span style="margin-left:150px;padding-top:15px"></span>
+            <input id="chk_allow_blank_votes" type="checkbox" name="checkbox" value="value" style="margin-top:25px;margin-left:10px; width:20px;" title="Hvis Tom eller Tusa kubber, må vi kunne avslutte en runde uanhengig av dem..." />
+            <span style="margin-left:10px;padding-top:15px">Tillatt med manglende stemmer</span>
+            <!--<table>
+               <tr>
+                  <td id="current_votes" style="padding:4px" hidden="hidden">
+                     <label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>
+                  </td>
+                  <td id="completed_votes" padding:4px">
+                     <label class="form-switch"><input type="checkbox"><i></i>Noe annet...</label>
+                  </td>
+               </tr>
+            </table>-->
+         </div>
+
+
+         <!--<div class="topcorner">
+            <table>
+               <tr>
+                  <td id="current_votes" style="padding:4px" hidden="hidden">
+                     <table id="excelDataTable" class="voters" style="padding:10px; width:850px"></table>
+                  </td>
+                  <td id="completed_votes" padding:4px">
+                     <table id="current_votes_table" class="voters" style="width:300px">
+                        <tr id="tester"><th colspan="2">Hvem har stemt?</th></tr>
+                        <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+                        <tr><td><img src="../avatar/avatar_02.png" /></td><td>Tusa</td></tr>
+                     </table>
+                  </td>
+               </tr>
+            </table>
+         </div>-->
+         <!--<br />
+         <div>
+            <table id="excelDataTable" class="voters" style="padding:10px; width:850px;margin-left:20px"></table>
+         </div>
+         <div class="topcorner">
+            <table id="current_votes_table" class="voters" style="width:300px;background-color:white">
+               <tr id="tester"><th colspan="2" style="background-color:crimson;text-align:center;vertical-align:middle;padding-bottom:3px;padding-top:3px">Hvem har stemt denne runden?</th></tr>
+               <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+               <tr><td><img src="../avatar/avatar_02.png" /></td><td>Tusa</td></tr>
+            </table>
+         </div>-->
+
+      </div>
+   </div>
+
+   <br /><br /><br />
+   <div>
+      <table id="excelDataTable" class="voters" style="padding:10px; width:850px;margin-left:20px"></table>
+   </div>
+
+   <div class="topcorner" hidden="hidden" id="active_votes">
+      <table id="current_votes_table" class="voters" style="width:300px;background-color:white">
+         <tr id="tester"><th colspan="2" style="background-color:crimson;text-align:center;vertical-align:middle;padding-bottom:3px;padding-top:3px">Hvem har stemt i denne runden?</th></tr>
+         <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+         <tr><td><img src="../avatar/avatar_02.png" /></td><td>Tusa</td></tr>
+      </table>
+   </div>
+
+   <!--<div class="topcorner2" id="canvas_owner" style="width:1000px;background-color:whitesmoke;border-radius: 25px;padding:20px;background: rgba(255,255,255,1.0);" hidden="hidden">
+      <canvas id="myChart"></canvas>
+   </div>-->
+   <div id="canvas_owner" style="width:1000px;background-color:whitesmoke;border-radius: 25px;padding:20px;background: rgba(255,255,255,1.0);" hidden="hidden">
+      <div id="mydivheader">Resultatliste</div>
+      <canvas id="myChart"></canvas>
+   </div>
+
+   <!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="../Scripts/jquery-3.3.1.js"></script>
+   <script src="../Scripts/popper.min.js"></script>
+   <script src="../Scripts/bootstrap.min.js"></script>
+   <script src="../Scripts/modernizr-2.8.3.js"></script>
+   <script src="../Scripts/jquery.signalR-2.4.0.min.js"></script>
+   <script src="../Scripts/Chart.min.js"></script>
+   <!--Den neste her er litt "magi". Hva er dette? Her ligger det autogenererte SignalR hub skript. Uten denne, fungerer det ikke -->
+   <script src="/signalr/hubs"></script>
+   <script>
+
+      let massPopChart = null;
+
+      // For the SignalR API, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-server
+      //
+      // For a server example where the server is pushing messages to the client, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
+      //
+      // The next is a short-hand notation for
+      // $(document).ready(function () { ... });
+      // which is called when the document is fully loaded:
+      $(function () {
+         // Start of startup
+         let blind_test_id = 0; // Dette kunne vært løst smarte med å bruke SignalRs Groups - men p.t. er det ikke utforsket
+         // Reference the auto-generated proxy for the hub ($.connection refers to the SignalR proxies).
+         var board = $.connection.pollCtrl;
+
+         // Chart Setup - Global Options
+         Chart.defaults.global.defaultFontFamily = 'Lato';
+         Chart.defaults.global.defaultFontSize = 14;
+         Chart.defaults.global.defaultFontColor = '#000';
+
+         // Add a client-side hub method that the server will call to display messages
+         board.client.pollGetBlindTestResponse = function (message) {
+            console.log(message);
+            if (message != null) {
+
+               if (message.Instance != null) {
+                  blind_test_id = message.Instance.Id;
+                  if (message.Result == "Success") {
+                     // Her har vi fått tak i et run - noe som er goody!
+                     // Gjør klar real-estate
+                     $('#init_group_id').prop('hidden', true);
+                     $('#vote_group_id').prop('hidden', false);
+                     $('#active_votes').prop('hidden', false);
+                     $('#param_block').prop('hidden', false);
+
+                     // Setter julebakgrunn
+                     $('body').css('background-image', 'url("../Content/julebakgrunn.png")');
+
+                     $('#run_title').text(''); // clear
+                     $('#run_title').append(message.Instance.Name + ' <small style="font-size:50%;" title="Blindtest-ID">[' + message.Instance.Id.toString() + ']</small>');
+
+                     if (message.Instance.Rounds == 0) {
+                        setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
+                     } else {
+                        setOutText('Hey hey - velkommen tilbake, da durer vi på videre!', message.Instance.Rounds);
+                        board.server.requestResult(blind_test_id);
+                        if (message.Instance.Rounds > 2) {
+                           // Inge vits i å vise dette før vi har litt data
+                           board.server.requestScoreboard(blind_test_id);
+                        }
+                     }
+                     applyAllVotes(message);
+                  } else {
+                     //$('#warning').text(message.Error);
+                     setWarning(message.Error);
+                  }
+               } else {
+                  //$('#warning').text(message.Error);
+                  setWarning(message.Error);
+               }
+            } else {
+               //$('#warning').text("Fant ingen run med denne ID-en.");
+               setWarning("Fant ingen run med denne ID-en.");
+            }
+            $('#reg_no_btn').prop('disabled', false);
+         };
+
+         board.client.pollApplyVotesResponse = function (message) {
+            console.log(message);
+            if (message != null) {
+               if (blind_test_id != message.BlindTestId) {
+                  // Meldingen er ikke til meg - burde ikke skje
+                  return;
+               }
+               if (message.Result == "Success") {
+                  if (message.Rounds == 0) {
+                     setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
+                  } else {
+                     setOutText('Runde ' + message.Rounds.toString() + ' er registrert.', message.Rounds);
+                     setOpacity(message.Rounds);
+                  }
+                  clearVoteTableAndHideIt();
+                  $('#reg_entity_txt').val('');
+                  $('#reg_abv_txt').val('');
+                  $('#reg_votes_btn').prop('disabled', true);
+                  $('#checkbox_id').prop('checked', false);
+                  $('#chk_allow_blank_votes').prop('checked', false);
+                  board.server.requestResult(message.BlindTestId);
+                  if (message.Rounds > 2) {
+                     // Inge vits i å vise dette før vi har litt data
+                     board.server.requestScoreboard(message.BlindTestId);
+                  }
+               } else {
+                  //$('#warning').text(message.Error);
+                  setWarning(message.Error);
+               }
+            }
+         };
+
+         board.client.requestDummData = function (message) {
+            console.log(message);
+            let data = message.Result;
+            let dd = JSON.parse(data);
+            setupChart(dd);
+         }
+
+         board.client.requestScoreBoardResponse = function (message) {
+            console.log(message);
+            let data = message.Result;
+            let json = JSON.parse(data);
+            $('#canvas_owner').prop('hidden', false); // Show the score board
+            setupChart(json);
+         }
+
+         board.client.requestResultResponse = function (message) {
+            console.log(message);
+            if (message != null) {
+               if (message.Result.length > 0) {
+                  $("#excelDataTable tr").remove();
+                  buildHtmlTable2(JSON.parse(message.Result));
+               } else {
+                  //$('#warning').text(message.Error);
+                  setWarning(message.Error);
+
+               }
+            }
+         }
+
+         board.client.disconnectedUser = function (message) {
+            console.log(message);
+            // denne skal fjernes etterhvert
+            if (message != null) {
+               //$('#warning').text("Disconnected user(s): " + message);
+               setWarning("Disconnected user(s): " + message);
+            }
+         };
+
+         board.client.voteAdded = function (message) {
+            console.log(message);
+            if (message != null) {
+               if (blind_test_id != message.BlindTestId) {
+                  // Meldingen er ikke til meg
+                  return;
+               }
+               //$('#warning').text("Received a vote: Blindtest Id = " + message.BlindTestId + ", BrukerID: " + message.ParticipantId.toString());
+               //setWarning("Received a vote: Blindtest Id = " + message.BlindTestId + ", BrukerID: " + message.ParticipantId.toString());
+               // A row is on this form
+               // <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+               // The id is in the form: v_<BlindTestId>_<ParticipantId>
+               let id = "v_" + message.BlindTestId.toString() + "_" + message.ParticipantId.toString();
+               if (!($('#' + id).length)) {
+                  var markup = '<tr id="' + id + '"><td style = "text-align: center;width=50;"><img src="../avatar/avatar_' + message.ImageIndex + '.png" title="' + message.ParticipantId.toString() + '" /></td><td>' + message.ParticipantName + '</td></tr>';
+                  $('#current_votes_table tr:last').after(markup);
+               } else if (message.UserVoteDeleted) {
+                  $('#' + id).remove();
+               }
+               $('#current_votes').prop('hidden', false); // Show the current vote table vote
+            }
+         };
+
+         // Start the connection
+         $.connection.hub.start().done(function () {
+            // Rydd opp intitielle parametere/logikk
+            $('#loading27').remove(); // Remove progress
+            $('#init_group_id').prop('hidden', false); // Show the input area
+            $('#reg_no_btn').prop('disabled', false);
+            // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
+            $("#current_votes_table").find("tr:gt(0)").remove();
+            setOpacity(1);
+
+
+            // TEST
+            $('#robin_btn').click(function () {
+               //$('#rudolf').css({ "opacity": "1" });
+               board.server.getDummyData();
+               //let data = '[{"data": [{"name":"1. pl - Hansa juleøl (ABV: 6.5%)"," score":5.00},{"name":"1. pl - Something (ABV: 6.5%)"," score":5.00},{"name":"3. pl - Dummy (ABV: 2.0%)"," score":4.33},{"name":"4. pl - test (ABV: 7.0%)"," score":4.00},{"name":"4. pl - jalla-2 (ABV: 8.0%)"," score":4.00},{"name":"6. pl - Humlespesial (ABV: 8.0%)"," score":3.50},{"name":"7. pl - hansa (ABV: 6.0%)"," score":2.33},{"name":"8. pl - jalla (ABV: 5.0%)"," score":2.00}],"yAxesMin":1.50}]';
+               //let ff = JSON.parse(data);
+
+            });
+
+            // Sett opp en del on-click handlers:
+            $('#reg_no_btn').click(function () {
+               //$('#warning').text("");
+               setWarning('');
+               let id = "";
+               if ($('#reg_no_txt').val().length > 0) {
+                  id = $('#reg_no_txt').val();
+               } else if ($.isNumeric($('#a_run_id').val())) {
+                  id = $('#a_run_id').val();
+               }
+               else {
+                  //$('#warning').text("Du må legge inn en ny test, eller en eksisterende Run ID.");
+                  setWarning("Du må legge inn en ny test eller en eksisterende Run ID.");
+               }
+               if (id.length > 0) {
+                  $('#reg_no_btn').prop('disabled', true);
+                  board.server.getBlindTest(id);
+               }
+            });
+
+            // Handler for å registrere en avstemming
+            $('#reg_votes_btn').click(function () {
+               //$('#warning').text('');
+               setWarning('');
+               if ($('#reg_entity_txt').val().trim().length == 0) {
+                  //$('#warning').text('Du må legge inn navn på ølet før du kan registrere en runde!');
+                  setWarning('Du må legge inn navn på ølet før du kan registrere en runde!');
+               } else {
+                  let abv = $('#reg_abv_txt').val().trim();
+                  abv = abv.replace(',', '.');
+                  if (!$.isNumeric(abv)) {
+                     //$('#warning').text("Du må legge inn en numerisk verdi for ABV (Alcohol By Volume) - f. eks 5,5");
+                     setWarning("Du må legge inn en numerisk verdi for ABV(Alcohol By Volume) - f.eks 5, 5");
+                  } else {
+                     let override = '0';
+                     if ($('#chk_allow_blank_votes').prop("checked")) {
+                        override = '1';
+                     }
+                     board.server.applyVotes(blind_test_id, $('#reg_entity_txt').val(), abv, override);
+                  }
+               }
+            });
+
+            $('#checkbox_id').click(function () {
+               if ($('#checkbox_id').prop("checked")) {
+
+                  if (($("#reg_entity_txt").val().trim().length > 0) && ($("#reg_abv_txt").val().trim().length > 0)) {
+                     $('#reg_votes_btn').prop('disabled', false);
+                  } else {
+                     $('#checkbox_id').prop('checked', false);
+                  }
+
+               } else {
+                  $('#reg_votes_btn').prop('disabled', true);
+               }
+            });
+
+
+         });
+
+         // End of startup
+      });
+
+      function getNumberAsText(value) {
+         let text = "";
+         switch (value) {
+            case 0: text = "nulte"; break;
+            case 1: text = "første"; break;
+            case 2: text = "andre"; break;
+            case 3: text = "tredje"; break;
+            case 4: text = "fjerde"; break;
+            case 5: text = "femte"; break;
+            case 6: text = "sjette"; break;
+            case 7: text = "syvende"; break;
+            case 8: text = "åttende"; break;
+            case 9: text = "niende"; break;
+            case 10: text = "tiende"; break;
+            case 11: text = "ellevte"; break;
+            case 12: text = "tolvte"; break;
+            case 13: text = "trettende"; break;
+            case 14: text = "fjortende"; break;
+            case 15: text = "femtende"; break;
+            default: text = value.toString(); + ".";
+         }
+         return text;
+      }
+
+      function setWarning(text) {
+         if (text.length > 0) {
+            $('#warning').prop('hidden', false);
+            $('#warning').text(text);
+         } else {
+            $('#warning').text('');
+            $('#warning').prop('hidden', true);
+         }
+
+
+      }
+
+      function getImageNumber(user_id) {
+         let n = 0;
+         if ($.isNumeric(user_id) && (user_id < 11)) {
+            n = user_id;
+         } else {
+            n = getRandomInt(1, 10); // creates a number between 1 and 10
+         }
+         return ((n < 10) ? "0" : "") + n.toString();
+      }
+
+      /**
+       * Returns a random integer between min (inclusive) and max (inclusive).
+       * The value is no lower than min (or the next integer greater than min
+       * if min isn't an integer) and no greater than max (or the next integer
+       * lower than max if max isn't an integer).
+       * Using Math.round() will give you a non-uniform distribution!
+       */
+      function getRandomInt(min, max) {
+         min = Math.ceil(min);
+         max = Math.floor(max);
+         return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function applyAllVotes(message) {
+         console.log(message);
+         if ((message != null) && (message.Instance.CurrentVotes != null) && (message.Instance.CurrentVotes.length > 0)) {
+
+            // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
+            //$("#current_votes_table").find("tr:gt(0)").remove();
+            // A row is on this form
+            // <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+            // The id is in the form: v_<BlindTestId>_<ParticipantId>
+            clearVoteTableAndHideIt();
+
+            for (var i = 0; i < message.Instance.CurrentVotes.length; i++) {
+               let p = message.Instance.CurrentVotes[i];
+               let id = "v_" + message.Instance.Id.toString() + "_" + p.ParticipantId.toString();
+               if (!($('#' + id).length)) {
+                  //var markup = "<tr id=\"" + id + "\"><td style = \"text-align: center;width=50;\"><img src=\"../avatar/avatar_" + p.ImageIndex + ".png\" /></td><td>" + p.ParticipantName + "</td></tr>";
+                  var markup = '<tr id="' + id + '"><td style = "text-align: center;width=50;"><img src="../avatar/avatar_' + p.ImageIndex + '.png" title="DeltakerID: ' + p.ParticipantId.toString() + '" /></td><td>' + p.ParticipantName + '</td></tr>';
+                  $('#current_votes_table tr:last').after(markup);
+               }
+            }
+            $('#current_votes').prop('hidden', false); // Show the current vote table vote
+         }
+      }
+
+      function clearVoteTableAndHideIt() {
+         // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
+         $("#current_votes_table").find("tr:gt(0)").remove();
+         $('#current_votes').prop('hidden', true); // Hide the current vote table vote
+      }
+
+      function setOutText(message, rounds) {
+
+         let txt = message + "\nHvem er klar for å hente øl til " + getNumberAsText(rounds + 1) + " runde?";
+         txt = txt + '\nNår ølet er drukket, må hver enkelt sende inn sin stemme fra sitt "stemmeavlukke".';
+         let obj = $('#command_id').text(txt);
+         // Erstatt \n med <br/>
+         obj.html(obj.html().replace(/\n/g, '<br/>'));
+      }
+      var myList = [{ "Rank": 2, "Merke": "Humlespesial", "ABV": 8.0, "Snitt": 3.50, "Robin": 4, "Tusa": 3 }, { "Rank": 3, "Merke": "Hansa juleøl", "ABV": 6.5, "Snitt": 5.00, "Robin": 6, "Tusa": 4, "Rusa": 5 }, { "Rank": 1, "Merke": "hansa", "ABV": 6.0, "Snitt": 2.30, "Robin": 1, "Tusa": 3, "Rusa": 3 }, { "Rank": 3, "Merke": "Something", "ABV": 6.5, "Snitt": 5.00, "Robin": 6, "Tusa": 4, "Rusa": 5 }];
+      var myList0 = [
+         {
+            "Rank": 8,
+            "Merke": "7-Fjell 7 sorter",
+            "ABV": 6.5,
+            "Snitt": 3.88,
+            "Edvard": 4,
+            //"Erling": 4,
+            //"Frank": 4,
+            //"Jan": 5,
+            //"Øyvind": 4,
+            //"Robin": 4,
+            //"Tom": 2,
+            //"Tusa": 4
+         },
+         {
+            "Rank": 2,
+            "Merke": "Aass Juleøl",
+            "ABV": 9,
+            "Snitt": 5,
+            "Edvard": 4,
+            "Erling": 5,
+            "Frank": 4,
+            "Jan": 5,
+            "Øyvind": 5,
+            "Robin": 5,
+            "Tom": 6,
+            "Tusa": 6
+         }
+         ,
+         {
+            "Rank": 2,
+            "Merke": "Aass Juleøl",
+            "ABV": 9,
+            "Snitt": 5,
+            "Edvard": "sov",
+            "Erling": 5,
+            "Frank": 4,
+            "Jan": 5,
+            "Øyvind": 5,
+            "Robin": 5,
+            "Tom": 6,
+            "Tusa": 6
+         }
+         ,
+         {
+            //"Rank": 2,
+            //"Merke": "Aass Juleøl",
+            //"ABV": 9,
+            "Snitt": "Snitt",
+            "Edvard": 5,
+            "Erling": 5,
+            "Frank": 4,
+            "Jan": 5,
+            "Øyvind": 5,
+            "Robin": 5,
+            "Tom": 6,
+            "Tusa": 6
+         }
+      ];
+
+      // Builds the HTML Table out of myList json data from Ivy restful service.
+      function buildHtmlTable() {
+         var columns = addAllColumnHeaders(myList);
+
+         for (var i = 0; i < myList.length; i++) {
+            var row$ = $('<tr/>');
+            for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+               var cellValue = myList[i][columns[colIndex]];
+
+               if (cellValue == null) { cellValue = ""; }
+
+               row$.append($('<td/>').html(cellValue));
+            }
+            $("#excelDataTable").append(row$);
+         }
+      }
+
+      function buildHtmlTable2(json_object) {
+         var columns = addAllColumnHeaders2(json_object);
+
+         for (var i = 0; i < json_object.length; i++) {
+            var row$ = $('<tr/>');
+            for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+               var cellValue = json_object[i][columns[colIndex]];
+
+               if (cellValue == null) { cellValue = ""; }
+
+               row$.append($('<td/>').html(cellValue));
+            }
+            $("#excelDataTable").append(row$);
+         }
+      }
+
+      // Adds a header row to the table and returns the set of columns.
+      // Need to do union of keys from all records as some records may not contain
+      // all records
+      function addAllColumnHeaders2(json_object) {
+         var columnSet = [];
+         var headerTr$ = $('<tr/>');
+
+         for (var i = 0; i < json_object.length; i++) {
+            var rowHash = json_object[i];
+            for (var key in rowHash) {
+               if ($.inArray(key, columnSet) == -1) {
+                  columnSet.push(key);
+                  headerTr$.append($('<th/>').html(key));
+               }
+            }
+         }
+         $("#excelDataTable").append(headerTr$);
+
+         return columnSet;
+      }
+
+      function addAllColumnHeaders(myList) {
+         var columnSet = [];
+         var headerTr$ = $('<tr/>');
+
+         for (var i = 0; i < myList.length; i++) {
+            var rowHash = myList[i];
+            for (var key in rowHash) {
+               if ($.inArray(key, columnSet) == -1) {
+                  columnSet.push(key);
+                  headerTr$.append($('<th/>').html(key));
+               }
+            }
+         }
+         $("#excelDataTable").append(headerTr$);
+
+         return columnSet;
+      }
+
+      function setOpacity(value) {
+         $('#rudolf').css({ "opacity": "1" });
+
+         switch (value) {
+            case 1:
+            case 2: $('#rudolf').css({ "opacity": "0" }); break;
+            case 3:
+            case 4: $('#rudolf').css({ "opacity": "0.1" }); break;
+            case 5: $('#rudolf').css({ "opacity": "0.2" }); break;
+            case 6: $('#rudolf').css({ "opacity": "0.3" }); break;
+            case 7: $('#rudolf').css({ "opacity": "0.4" }); break;
+            case 8: $('#rudolf').css({ "opacity": "0.6" }); break;
+            case 9: $('#rudolf').css({ "opacity": "0.8" }); break;
+            case 10: $('#rudolf').css({ "opacity": "0.9" }); break;
+            default: $('#rudolf').css({ "opacity": "1.0" });
+         }
+      }
+
+      function setupChart(json_beer) {
+
+         var labels = json_beer.data.map(function (e) {
+            return e.name;
+         });
+         var data = json_beer.data.map(function (e) {
+            return e.score;
+         });
+
+         if (massPopChart == null) {
+
+         } else {
+            massPopChart.destroy();
+         }
+
+
+
+         //let massPopChart =
+         let ctx = document.getElementById('myChart').getContext('2d');
+         massPopChart = new Chart(ctx, {
+            type: 'horizontalBar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+            data: {
+               labels: labels,
+               datasets: [{
+                  label: 'Snitt',
+                  data: data,
+                  //backgroundColor:'green',
+                  backgroundColor: [
+                     'rgba(0, 204, 0, 0.6)',
+                     'rgba(0, 204, 0, 0.6)',
+                     'rgba(0, 204, 0, 0.6)',
+
+                     'rgba(0, 153, 0, 0.6)',
+                     'rgba(0, 153, 0, 0.6)',
+                     'rgba(0, 153, 0, 0.6)',
+
+                     'rgba(255, 255, 0, 0.6)',
+                     'rgba(255, 255, 0, 0.6)',
+                     'rgba(255, 255, 0, 0.6)',
+
+                     'rgba(255, 128, 0, 0.6)',
+                     'rgba(255, 128, 0, 0.6)',
+                     'rgba(255, 128, 0, 0.6)',
+
+                     'rgba(255, 0, 0, 0.6)',
+                     'rgba(255, 0, 0, 0.6)',
+                     'rgba(255, 0, 0, 0.6)',
+
+                     'rgba(0, 0, 255, 0.6)',
+                     'rgba(0, 0, 255, 0.6)',
+                     'rgba(0, 0, 255, 0.6)',
+
+                     'rgba(0, 0, 0, 0.6)',
+                     'rgba(0, 0, 0, 0.6)',
+                     'rgba(0, 0, 0, 0.6)',
+
+                     'rgba(204, 0, 153, 0.6)',
+                     'rgba(204, 0, 153, 0.6)',
+                     'rgba(204, 0, 153, 0.6)'
+                  ],
+                  borderWidth: 1,
+                  borderColor: '#777',
+                  hoverBorderWidth: 3,
+                  hoverBorderColor: '#000'
+               }]
+            },
+            options: {
+               title: {
+                  display: false,
+                  text: 'Resultat',
+                  fontSize: 25
+               },
+               legend: {
+                  display: false,
+                  position: 'right',
+                  labels: {
+                     fontColor: '#000'
+                  }
+               },
+               layout: {
+                  padding: {
+                     left: 50,
+                     right: 0,
+                     bottom: 0,
+                     top: 0
+                  }
+               },
+               tooltips: {
+                  enabled: true
+               },
+               scales: {
+                  yAxes: [{
+                     ticks: {
+                        // En kan enkelt overstyre disse ved å sette dem til "motsatte ekstremer". Anta at karakteren er i intervallet {1,6}
+                        // En kan da oppheve forslaget ved å sett min/max til f.eks 9 og 0. Dette er tullete verdier, og Graph.js vil da beregne
+                        // min/max selv
+                        suggestedMin: 0,
+                        suggestedMax: 6,
+                        stepSize: 1, // For at tallene over skal ha effekt, må vi sette steg-størrelsen
+
+                        autoSkip: false // Denne forhindrer at bare annehver tick-label (navn på øl her) ikke blir tegnet opp - skjer default med mange bars
+                     }
+                  }],
+                  xAxes: [{
+                     ticks: {
+                        suggestedMin: json_beer.MinValue,
+                        suggestedMax: json_beer.MaxValue,
+                        stepSize: 0.5,
+                        autoSkip: false // Denne forhindrer at bare annehver tick-label (navn på øl her) ikke blir tegnet opp - skjer default med mange bars
+                     }
+                  }]
+               }
+            }
+         });
+      }
+
+
+
+      // TESTER draggable
+      // Make the DIV element draggable:
+      dragElement(document.getElementById("canvas_owner"));
+
+      function dragElement(elmnt) {
+         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+         if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+         } else {
+            // otherwise, move the DIV from anywhere inside the DIV: 
+            elmnt.onmousedown = dragMouseDown;
+         }
+
+         function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+         }
+
+         function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+         }
+
+         function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+         }
+      }
+
+
+   </script>
+
+</body>
+</html>

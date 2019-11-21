@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <link href="../Content/bootstrap.css" rel="stylesheet" />
+
+   <script src="../Scripts/modernizr-2.8.3.js"></script>
+   <meta charset="utf-8" />
+   <title></title>
+</head>
+<body>
+   <style>
+      div.panel-body {
+         overflow: scroll;
+         background: url('/Content/geometry2.png');
+      }
+   </style>
+   <h2>ChatBox</h2>
+   <div class="chat-panel panel panel-default">
+      <div class="panel-heading">
+         ChatBox using SingalR
+         <i class="fa fa-paper-plane fa-fw"></i>
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body" id="chat" style="height:250px;">
+         <input type="hidden" id="displayname" />
+
+         <p id="discussion"></p>
+      </div>
+      <!-- /.panel-body -->
+      <div class="panel-footer">
+         <div class="input-group">
+            <input id="message" type="text" name="message" class="form-control input-sm" placeholder="Type your message here..." />
+
+            <span class="input-group-btn">
+               <input type="button" class="btn btn-warning btn-sm" id="sendmessage" value="Send">
+
+            </span>
+         </div>
+      </div>
+   </div>
+
+   <script src="../Scripts/jquery-3.3.1.js"></script>
+   <script src="../Scripts/jquery.signalR-2.4.0.min.js"></script>
+   <!--Den neste her er litt "magi". Hva er dette? Her ligger det autogenererte SignalR hub skript. Uten denne, fungerer det ikke -->
+   <script src="/signalr/hubs"></script>
+   <script>
+      // For the SignalR API, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-server
+      //
+      // For a server example where the server is pushing messages to the client, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
+      //
+      // The next is a short-hand notation for
+      // $(document).ready(function () { ... });
+      // which is called when the document is fully loaded:
+
+      $(function () {
+         // Reference the auto-generated proxy for the hub ($.connection refers to the SignalR proxies).
+         var chat = $.connection.beerRating;
+
+         // Add a client-side hub method that the server will call to display messages
+         chat.client.sendMessage = function (message) {
+            $('#discussion').append('<p style="color:green; text-align:left; width:500px">' + htmlEncode(message) + '</p>');
+            console.log(message);
+         };
+
+         // Get the user name and store it to prepend to messages.
+         $('#displayname').val(prompt('Enter your name:', ''));
+
+         // Set initial focus to message input box
+         $('#message').focus();
+
+         // Start the connection
+         $.connection.hub.start().done(function () {
+            $('#sendmessage').click(function () {
+               // Call the Send method on the hub
+               chat.server.testJson($('#displayname').val(), $('#message').val());
+               // Clear text box and reset focus for next comment
+               $('#message').val('').focus();
+            });
+         });
+      });
+      // This optional function html-encodes messages for display in the page.
+      function htmlEncode(value) {
+         var encodedValue = $('<div />').text(value).html();
+         return encodedValue;
+      }
+   </script>
+
+</body>
+</html>

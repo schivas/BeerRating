@@ -1,0 +1,7 @@
+.label-topp {
+  background-color: #080;
+}
+.label-topp[href]:hover,
+.label-topp[href]:focus {
+  background-color: #31b0d5;
+}

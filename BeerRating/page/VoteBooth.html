@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <!-- Required meta tags for bootstrap -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+   <!--<link href="../Content/bootstrap.with.glyphicons.min.css" rel="stylesheet" />-->
+
+   <link href="../Content/star-rating.css" rel="stylesheet" />
+   <link href="../Content/addendum.css" rel="stylesheet" />
+   <link href="../Content/spinner.css" rel="stylesheet" />
+   <link href="../Content/glyphicons.css" rel="stylesheet" />
+   <script src="../Scripts/jquery-3.3.1.min.js"></script>
+   <script src="../Scripts/star-rating.js"></script>
+   <script src="../Scripts/star_rating-no.js"></script>
+
+   <title>Stemmeavlukke</title>
+</head>
+<body>
+   <style>
+      body {
+         background-image: url('../Content/geometry2.png');
+         /*background-image: url('../Content/christmas-colour-50-perc.png');*/
+         background-repeat: repeat-y repeat-x;
+      }
+   </style>
+
+   <div id="load_id" class="container"><div id="loading27"><div class="colorBalls"></div></div></div>
+
+   <!--<div id="loading27"><div class="colorBalls"></div></div>-->
+   <div id="init_group_id" class="container" hidden="hidden">
+      <!--<div class="input-group" style="padding:20px; width:700px">-->
+      <div class="input-group" style="padding:20px; width:600px">
+         <input id="a_run_id" type="text" name="message" class="form-control input-sm" style="width:100px" autocomplete="off" placeholder="Skriv inn ID på avstemming..." />
+         <input id="reg_user_name" type="text" name="message" class="form-control input-sm" style="margin-left:10px; width:40px" autocomplete="off" placeholder="Skriv inn ditt navn..." />
+         <input id="reg_user_btn" type="button" class="btn btn-info btn-sm" style="width:100px;margin-left:10px;" value="Bli med">
+      </div>
+   </div>
+
+   <div id="warning" class="text-danger"></div>
+
+   <div id="vote_id" class="container" hidden="hidden">
+      <div class="page-header">
+         <h2 id="run_title"></h2>
+      </div>
+      <form>
+         <input required id="input-21c" value="" type="text" title="">
+         <div class="clearfix"></div>
+         <!--Button>test1</Button><br/>
+         <Button>test2</Button-->
+      </form>
+
+      <!--Button id="apply">Avgi stemme</Button-->
+      <input type="button" class="btn btn-warning btn-sm" id="vote" value="Avgi stemme">
+      <div id="vote-status">DETTE ER EN STATUSLINJE</div>
+
+   </div>
+
+   <script src="../Scripts/modernizr-2.8.3.js"></script>
+   <script src="../Scripts/jquery.signalR-2.4.0.min.js"></script>
+   <!--Den neste her er litt "magi". Hva er dette? Her ligger det autogenererte SignalR hub skript. Uten denne, fungerer det ikke -->
+   <script src="/signalr/hubs"></script>
+
+   <script>
+      //jQuery(document).ready(function () {
+      $(function () {
+
+         // Reference the auto-generated proxy for the hub ($.connection refers to the SignalR proxies).
+         var board = $.connection.voteBoard;
+
+         // Add a client-side hub method that the server will call to display messages
+         // Denne metoden vil bli kalt fra server og vil inneholde resultatet når en har prøvd å registrere seg
+         board.client.registerUserResult = function (message) {
+            console.log(message);
+            $('#reg_user_btn').prop('disabled', false);
+            if (message.Result == "Success") {
+               //$('#warning').text("Jippi :-)");
+               $('#init_group_id').prop('hidden', true);
+               $('#vote_id').prop('hidden', false);
+            } else {
+               $('#warning').text(message.Error);
+            }
+         };
+
+         $("#input-21c").rating({ min: 0, max: 6, step: 1.0, size: "md", stars: "6", language: "no" });
+
+         /*
+         $("#vote").click(function () {
+
+            let stemme = $("#input-21c").val();
+            $('#vote-status').text('ddd');
+            if (stemme == '') {
+               //alert("Ouch - du må minimum gi en stjerne");
+               $("#vote-status").text("Ouch - du må minimum gi en stjerne");
+               $("#vote-status").css("background-color", "yellow");
+            } else {
+               //alert("Du har avgitt karakteren " + stemme + " :-)");
+               $("#vote-status").text("Du har avgitt karakteren " + stemme + " :-)");
+               $("#vote-status").css('background-color', '');
+            }
+         });
+         */
+
+         $.connection.hub.start().done(function () {
+            // Rydd opp intitielle parametere/logikk
+            $('#load_id').remove();
+            $('#init_group_id').prop('hidden', false);
+            //$('#reg_no_btn').prop('disabled', false);
+
+            // Handler når en registrerer seg
+            $('#reg_user_btn').click(function () {
+               //console.log($('#reg_user_name').val());
+               $('#warning').text("");
+
+               let id = "";
+               if ($.isNumeric($('#a_run_id').val())) {
+                  id = $('#a_run_id').val();
+               }
+               else {
+                  $('#warning').text("Du må legge inn en ID på avstemming");
+                  return;
+               }
+               let user = "";
+               if ($('#reg_user_name').val().length > 0) {
+                  user = $('#reg_user_name').val();
+               } else {
+                  $('#warning').text("Du må legge inn et brukernavn (velg et enkelt som du husker)");
+                  return;
+               }
+               
+               board.server.addUser(id, user);
+            });
+
+            // Handler når en stemmer
+            $("#vote").click(function () {
+
+               let stemme = $("#input-21c").val();
+               $('#vote-status').text('ddd');
+               if (stemme == '') {
+                  //alert("Ouch - du må minimum gi en stjerne");
+                  $("#vote-status").text("Ouch - du må minimum gi en stjerne");
+                  $("#vote-status").css("background-color", "yellow");
+               } else {
+                  //alert("Du har avgitt karakteren " + stemme + " :-)");
+                  $("#vote-status").text("Du har avgitt karakteren " + stemme + " :-)");
+                  $("#vote-status").css('background-color', '');
+                  //board.server.addVote("her må vi endre");
+
+                  //public async Task AddVote(string name, string run_id, string vote)
+               }
+            });
+         });
+
+      });
+   </script>
+</body>
+
+
+</html>

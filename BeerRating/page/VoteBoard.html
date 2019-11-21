@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <!-- Required meta tags for bootstrap -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <link href="../Content/bootstrap.css" rel="stylesheet" />
+   <link href="../Content/spinner.css" rel="stylesheet" />
+
+   <title>Stemmeskjema</title>
+</head>
+<body>
+   <style>
+      body {
+         background-image: url('../Content/geometry2.png');
+         /*background-image: url('../Content/christmas-colour-50-perc.png');*/
+         background-repeat: repeat-y repeat-x;
+      }
+      input[type=checkbox] {
+         transform: scale(2.0);
+      }
+   </style>
+   <div id="loading27"><div class="colorBalls"></div></div>
+   
+   <h1 id="run_title"></h1>
+
+   <div id="init_group_id" hidden="hidden">
+      <div class="input-group" style="padding:20px; width:700px">
+         <input id="reg_no_txt" type="text" name="message" class="form-control input-sm" autocomplete="off" placeholder="Skriv inn navn på ny test..." />
+         <span style="margin-left:10px" class="input-group-text">eller</span>
+         <input id="a_run_id" type="text" name="message" class="form-control input-sm" style="margin-left:10px" autocomplete="off" placeholder="Velg eksisterende run ID..." />
+         <input id="reg_no_btn" type="button" class="btn btn-info btn-sm" style="width:100px;margin-left:10px;" value="Send">
+      </div>
+   </div>
+
+   <div id="warning" class="text-danger"></div>
+
+   <div id="vote_group_id" hidden="hidden">
+      <p id="command_id" class="text-primary" style="font-size:large"></p>
+      <div class="input-group" style="padding:20px; width:700px">
+         <input id="reg_entity_txt" type="text" name="message" class="form-control input-sm" autocomplete="off" placeholder="Skriv inn hvilket øl som ble testet..." />
+         <input id="reg_votes_btn" type="button" disabled="disabled" class="btn btn-success btn-sm" style="width:150px;margin-left:10px;" value="Send inn stemmer" />
+         <input id="checkbox_id" type="checkbox" name="checkbox" value="value" style="margin-top:15px;margin-left:10px" title="Hak av denne når det er klart å sende inn stemmer." />
+      </div>
+   </div>
+
+   <!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="../Scripts/jquery-3.3.1.js"></script>
+   <script src="../Scripts/popper.min.js"></script>
+   <script src="../Scripts/bootstrap.min.js"></script>
+   <script src="../Scripts/modernizr-2.8.3.js"></script>
+   <script src="../Scripts/jquery.signalR-2.4.0.min.js"></script>
+   <!--Den neste her er litt "magi". Hva er dette? Her ligger det autogenererte SignalR hub skript. Uten denne, fungerer det ikke -->
+   <script src="/signalr/hubs"></script>
+   <script>
+      // For the SignalR API, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-server
+      //
+      // For a server example where the server is pushing messages to the client, ref. this resource:
+      // https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr
+      //
+      // The next is a short-hand notation for
+      // $(document).ready(function () { ... });
+      // which is called when the document is fully loaded:
+
+      $(function () {
+         // Reference the auto-generated proxy for the hub ($.connection refers to the SignalR proxies).
+         var board = $.connection.voteBoard;
+
+         // Add a client-side hub method that the server will call to display messages
+         board.client.vb_GetRunRequest = function (message) {
+            console.log(message);
+
+            if (message != null) {
+               // Her har vi fått tak i et run - noe som er goody!
+               // Gjør klar real-estate
+               $('#init_group_id').prop('hidden', true);
+               $('#vote_group_id').prop('hidden', false);
+               $('#run_title').text(message.RunName + " (Id:" + message.RunId + ")");
+
+               //
+               let obj = $('#command_id').text("Okey - da er vi i gang - velkommen til årets juleøltest! :-)\nDet er nå på tide å smake på litt øl - hvem er klar for å hente første runde?");
+               obj.html(obj.html().replace(/\n/g, '<br/>'));
+               //$('#command_id').text("O - da er vi i gang - velkommen til årets jukeøltest! :-)\nDet er nå på tide å smake på litt øl - hvem av dere gidder å snekre sammen første runde?");
+               
+
+            } else {
+               $('#warning').text("Fant ingen run med denne ID-en.");
+            }
+            $('#reg_no_btn').prop('disabled', false);
+         };
+
+         // Get the user name and store it to prepend to messages.
+         //$('#displayname').val(prompt('Enter your name:', ''));
+
+         // Set initial focus to message input box
+         $('#reg_no_txt').focus();
+
+         // Start the connection
+         $.connection.hub.start().done(function () {
+
+            // Rydd opp intitielle parametere/logikk
+            $('#loading27').remove();
+            $('#init_group_id').prop('hidden', false);
+            $('#reg_no_btn').prop('disabled', false);
+
+            $('#checkbox_id').click(function () {
+               if ($('#checkbox_id').prop("checked")) {
+                  if ($("#reg_entity_txt").val().length > 0) {
+                     $('#reg_votes_btn').prop('disabled', false);
+                  } else {
+                     $('#checkbox_id').prop('checked', false);
+                  }
+               } else {
+                  $('#reg_votes_btn').prop('disabled', true);
+               }
+            });
+
+            $('#reg_no_btn').click(function () {
+               //console.log($('#reg_no_txt').val());
+               $('#warning').text("");
+               let id = "";
+               if ($('#reg_no_txt').val().length > 0) {
+                  id = $('#reg_no_txt').val();
+               } else if ($.isNumeric($('#a_run_id').val())) {
+                  id = $('#a_run_id').val();
+               }
+               else {
+                  $('#warning').text("Du må legge inn en ny test, eller en eksisterende Run ID.");
+               }
+               if (id.length > 0) {
+                  $('#reg_no_btn').prop('disabled', true);
+                  board.server.getRun(id);
+               }
+            });
+
+
+         });
+
+
+      });
+
+   </script>
+
+</body>
+</html>
