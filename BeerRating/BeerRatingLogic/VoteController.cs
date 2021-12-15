@@ -5,10 +5,10 @@ using System.Web;
 using System.Threading;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
-//using BeerRating.signalr.hub;
 
 namespace BeerRating.BeerRatingLogic
 {
+   /*
    public class VoteController
    {
       // static holder for instance, need to use lambda to construct since constructor private
@@ -16,18 +16,15 @@ namespace BeerRating.BeerRatingLogic
       // accessor for instance
       public static VoteController Instance { get { return _instance.Value; } }
 
-      private readonly IHubContext _hubContext;
+      //private readonly IHubContext _hubContext;
       private Dictionary<int, Run> _runs;
 
       // private to prevent direct instantiation.
       private VoteController()
       {
-         //_names = new Dictionary<string, string>();
-         //_connections = new Dictionary<string, string>();
-
          // Save our hub context so we can easily use it 
          // to send to its connected clients
-         _hubContext = GlobalHost.ConnectionManager.GetHubContext<VoteBoardHub>();
+         //_hubContext = GlobalHost.ConnectionManager.GetHubContext<VoteBoardHub>();
 
          _runs = new Dictionary<int, Run>();
 
@@ -152,5 +149,5 @@ namespace BeerRating.BeerRatingLogic
          return Username.CompareTo(obj);
       }
    }
-
+   */
 }

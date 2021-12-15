@@ -9,7 +9,7 @@ namespace BeerRating.BeerRatingLogic
    public class PollHub : Hub
    {
 
-      #region Dashboard Methods
+      #region Dashboard Methods - i.e the logic used by the dashboard keeping track of users and votes
 
       public async Task GetBlindTest(string id)
       {
@@ -111,7 +111,7 @@ namespace BeerRating.BeerRatingLogic
 
       #endregion
 
-      #region Client Methods
+      #region Client Methods - i.e the logic used by each user
 
       /// <summary>
       /// Used by participant to add itself to the blind test

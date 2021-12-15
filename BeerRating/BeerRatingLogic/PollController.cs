@@ -12,13 +12,11 @@ namespace BeerRating.BeerRatingLogic
       private static readonly Lazy<PollController> _instance = new Lazy<PollController>(() => new PollController(new SqlServerProvider()));
 
       public static PollController Instance { get { return _instance.Value; } }
-      private readonly IHubContext _hubContext;
       private readonly IDataProvider _provider;
 
       private PollController(IDataProvider provider)
       {
          _provider = provider;
-         _hubContext = GlobalHost.ConnectionManager.GetHubContext<VoteBoardHub>();
       }
 
       public async Task<ResultHolder<BlindTest>> GetBlindTest(int blind_test_id)
@@ -56,11 +54,6 @@ namespace BeerRating.BeerRatingLogic
          return await _provider.GetUserById(blind_test_id, participant_id, connectionId);
       }
 
-      //public void AddVote(int blind_test_id, int participant_id, int vote)
-      //{
-      //   _provider.AddVote(blind_test_id, participant_id, vote);
-      //}
-
       public async Task<ResultHolder<int>> ApplyVotes(int blind_test_id, string brand_name, float abv, int override_mode)
       {
          return await _provider.ApplyVotes(blind_test_id, brand_name, abv, override_mode);
@@ -70,11 +63,6 @@ namespace BeerRating.BeerRatingLogic
       {
          return await _provider.GetParticipantCurrentVote(blind_test_id, participant_id);
       }
-
-      //public async Task<string> AddVote2(int blind_test_id, int participant_id, int vote)
-      //{
-      //   return await _provider.AddVote2(blind_test_id, participant_id, vote);
-      //}
 
       public async Task<ResultHolder<string>> GetResult(int blind_test_id)
       {

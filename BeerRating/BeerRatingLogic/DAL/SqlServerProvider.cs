@@ -91,8 +91,6 @@ namespace BeerRating.BeerRatingLogic.DAL
          {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Help.Helper.CnnVal("syse_db")))
             {
-               //var ret = await connection.QueryAsync<BlindTest>("SELECT * FROM dbo.BlindTest Where Id=@Id", new { Id = blind_test_id });
-
                var ret = await connection.QueryAsync<BlindTest>(
                   @"SELECT a.*, b.Rounds, IsRoundActive = CONVERT(bit, IIF(c.Antall <> 0, 1, 0))
                   FROM dbo.BlindTest AS a
@@ -108,12 +106,6 @@ namespace BeerRating.BeerRatingLogic.DAL
                   r.Error = "Fant ikke blindtest (Id = " + blind_test_id.ToString() + ")";
                }
 
-               //var cv = await connection.QueryAsync<CurrentVote>(
-               //   @"SELECT a.ParticipantId, ParticipantName = b.[Name], ImageIndex = IIF(c.img_id < 10, '0', '') + CONVERT(nvarchar(10), c.img_id)
-               //     FROM dbo.CurrentRound as a
-               //     INNER JOIN dbo.Participant as b on a.ParticipantId = b.Id
-               //     CROSS APPLY(SELECT img_id = a.ParticipantId % 10) AS c
-               //     WHERE a.BlindTestId=@bt_Id", new { bt_Id = blind_test_id });
                var cv = await connection.QueryAsync<CurrentVote>(
                   @"SELECT a.ParticipantId, ParticipantName = b.[Name], b.ImageIndex
                     FROM dbo.CurrentRound as a
@@ -199,74 +191,6 @@ namespace BeerRating.BeerRatingLogic.DAL
                if (ret.Count() > 0)
                {
                   r.Result = Result.Parse((List<Result>)ret);
-                  //List<Result> l = new List<Result>();
-                  //List<string> lines = new List<string>();
-                  //string line = "";
-                  //int round = 0;
-                  //int count = 0;
-                  //void a(int x)
-                  //{
-                  //   lines.Add((line + "}").Replace("¤", "\""));
-                  //   line = "";
-                  //   round = x;
-                  //}
-                  //Dictionary<int, KeyValuePair<string, double>> person_avg = new Dictionary<int, KeyValuePair<string, double>>();
-                  //foreach (var item in ret)
-                  //{
-                  //   if (!person_avg.ContainsKey(item.ParticipantId))
-                  //   {
-                  //      person_avg.Add(item.ParticipantId, new KeyValuePair<string, double>(item.Name, item.SnittPerson));
-                  //   }
-                  //   count++;
-                  //   if (round == 0)
-                  //   {
-                  //      round = item.RoundNo;
-                  //   }
-                  //   if (round != item.RoundNo)
-                  //   {
-                  //      a(item.RoundNo);
-                  //   }
-
-                  //   if (string.IsNullOrEmpty(line))
-                  //   {
-                  //      line = $"{{¤Rank¤: { item.Rangering },¤Merke¤: ¤{ item.BrandName }¤, ¤ABV¤: { item.ABV.ToString("##.0", System.Globalization.CultureInfo.GetCultureInfo(1033)) },¤Snitt¤: { item.Snitt.ToString("##.00", System.Globalization.CultureInfo.GetCultureInfo(1033)) }";
-                  //   }
-                  //   double verdi = item.Vote == null ? 0 : (double)item.Vote;
-                  //   string stemme = (verdi > 0) ? verdi.ToString("#0", System.Globalization.CultureInfo.GetCultureInfo(1033)) : "kubbet";
-                  //   line += $",¤{ item.Name }¤: ¤{ stemme }¤";
-
-                  //   if (count == ret.Count())
-                  //   {
-                  //      a(item.RoundNo);
-                  //   }
-                  //}
-
-                  //line = $"{{¤Rank¤: null,¤Merke¤: ¤¤, ¤ABV¤: null,¤Snitt¤: ¤Snitt:¤";
-
-                  //foreach (var p in person_avg)
-                  //{
-                  //   string stemme = p.Value.Value.ToString("##.00", System.Globalization.CultureInfo.GetCultureInfo(1033));
-                  //   line += $",¤{ p.Value.Key }¤: ¤{ stemme }¤";
-                  //}
-                  //a(0);
-
-
-
-                  //// Her setter vi sammen de ulike linjene til et array
-                  //string total = "[";
-                  //count = 0;
-                  //foreach (var entry in lines)
-                  //{
-                  //   count++;
-                  //   total += entry;
-                  //   if (count < lines.Count)
-                  //   {
-                  //      total += ",";
-                  //   }
-                  //}
-
-
-                  //r.Result = total + "]";
                }
                else
                {

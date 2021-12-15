@@ -9,7 +9,7 @@
    <link href="../Content/spinner.css" rel="stylesheet" />
    <link href="../Content/poll_db.css?v=4" rel="stylesheet" />
    <link href="../Content/ios_switch.css?v=4" rel="stylesheet" />
-   
+
    <title>Kontrollpanel</title>
 </head>
 <body>
@@ -104,15 +104,29 @@
          margin-bottom: 5px;
          padding-left: 10px;
          color: black;
-         text-align: left;
+         text-align: center;
          font-weight: bold
       }
    </style>
+   <!--<table id="excelDataTable" class="voters" style="padding:10px; width:850px"></table>-->
+   <!--<label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>-->
+   <!--<div class="container">
+      <img class="img_move" src="../Content/Full nisse.png">
+      <div class="topright">Top Right</div>
+   </div>-->
+   <!--<input id="robin_btn" type="button" class="btn btn-success btn-sm" style="width:150px;margin-left:0px;margin-top:15px;" value="TEST" />-->
+   <!--<div class="container">-->
+   <!--<input id="robin_btn" type="button" class="btn btn-success btn-sm" style="width:150px;margin-left:0px;margin-top:15px;" value="TEST" />-->
+
+
+
 
    <div id="content" class="nisse">
       <img src="../Content/drunk_santa.png" class="ribbon" id="rudolf" />
    </div>
    <div id="loading27"><div class="colorBalls"></div></div>
+
+   <!--<h1 id="run_title" class="alpha60" style="margin-left:0px;background-color:white"></h1>-->
 
    <div id="init_group_id" hidden="hidden">
       <div class="input-group" style="padding:10px; width:750px">
@@ -128,6 +142,35 @@
    <div id="param_block" style="padding:10px;width:850px;margin-left:20px;margin-top:20px;" hidden="hidden">
       <!--blood red -->
       <h1 id="run_title" style="color:#8a0707"></h1>
+      <!--<div>
+         <table style="background-color:white;">
+            <tr>
+               <td colspan="2" style="padding:5px">
+                  <input id="__reg_no_txt" type="text" name="message" class="form-control input-sm" autocomplete="off" placeholder="Skriv inn navn på ny blindtest..." />
+               </td><td></td>
+               <td style="padding:5px;text-align:center;vertical-align:middle">alternativ</td>
+               <td style="padding:5px">
+                  <input id="__a_run_id" type="text" name="message" class="form-control input-sm" style="margin-left:10px" autocomplete="off" placeholder="Velg eksisterende test-ID..." />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input id="__checkbox_id" type="checkbox" name="checkbox" value="value" style="margin-top:20px;margin-left:10px; width:20px;" title="Hak av denne når det er klart å sende inn stemmer." />
+               </td>
+               <td colspan="3" style="padding-left:50px">
+                  <input id="__reg_votes_btn" type="button" disabled="disabled" class="btn btn-outline-success btn-sm" style="width:150px;margin-left:0px;margin-top:10px;" value="Send inn stemmer" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>
+               </td>
+               <td colspan="3" style="padding-left:50px">
+                  <label class="form-switch"><input type="checkbox"><i></i>Hallas</label>
+               </td>
+            </tr>
+         </table>
+      </div>-->
 
       <div id="vote_group_id">
          <p id="command_id" style="font-size:large;margin-bottom:0px;margin-left:0px;color:#8a0707"></p>
@@ -142,12 +185,51 @@
             <span style="margin-left:150px;padding-top:15px"></span>
             <input id="chk_allow_blank_votes" type="checkbox" name="checkbox" value="value" style="margin-top:25px;margin-left:10px; width:20px;" title="Hvis Tom eller Tusa kubber, må vi kunne avslutte en runde uanhengig av dem..." />
             <span style="margin-left:10px;padding-top:15px">Tillatt med manglende stemmer</span>
+            <!--<table>
+               <tr>
+                  <td id="current_votes" style="padding:4px" hidden="hidden">
+                     <label class="form-switch"><input type="checkbox"><i></i>Tillatt med manglende stemmer</label>
+                  </td>
+                  <td id="completed_votes" padding:4px">
+                     <label class="form-switch"><input type="checkbox"><i></i>Noe annet...</label>
+                  </td>
+               </tr>
+            </table>-->
          </div>
+
+
+         <!--<div class="topcorner">
+            <table>
+               <tr>
+                  <td id="current_votes" style="padding:4px" hidden="hidden">
+                     <table id="excelDataTable" class="voters" style="padding:10px; width:850px"></table>
+                  </td>
+                  <td id="completed_votes" padding:4px">
+                     <table id="current_votes_table" class="voters" style="width:300px">
+                        <tr id="tester"><th colspan="2">Hvem har stemt?</th></tr>
+                        <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+                        <tr><td><img src="../avatar/avatar_02.png" /></td><td>Tusa</td></tr>
+                     </table>
+                  </td>
+               </tr>
+            </table>
+         </div>-->
+         <!--<br />
+         <div>
+            <table id="excelDataTable" class="voters" style="padding:10px; width:850px;margin-left:20px"></table>
+         </div>
+         <div class="topcorner">
+            <table id="current_votes_table" class="voters" style="width:300px;background-color:white">
+               <tr id="tester"><th colspan="2" style="background-color:crimson;text-align:center;vertical-align:middle;padding-bottom:3px;padding-top:3px">Hvem har stemt denne runden?</th></tr>
+               <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
+               <tr><td><img src="../avatar/avatar_02.png" /></td><td>Tusa</td></tr>
+            </table>
+         </div>-->
+
       </div>
    </div>
 
    <br /><br /><br />
-
    <div>
       <table id="excelDataTable" class="voters" style="padding:10px; width:850px;margin-left:20px"></table>
    </div>
@@ -160,6 +242,9 @@
       </table>
    </div>
 
+   <!--<div class="topcorner2" id="canvas_owner" style="width:1000px;background-color:whitesmoke;border-radius: 25px;padding:20px;background: rgba(255,255,255,1.0);" hidden="hidden">
+      <canvas id="myChart"></canvas>
+   </div>-->
    <div id="canvas_owner" style="width:1000px;background-color:whitesmoke;border-radius: 25px;padding:20px;background: rgba(255,255,255,1.0);" hidden="hidden">
       <div id="mydivheader">Resultatliste</div>
       <canvas id="myChart"></canvas>
@@ -215,53 +300,37 @@
                      $('#param_block').prop('hidden', false);
 
                      // Setter julebakgrunn
-                     $('body').css('background-image', 'url("../Content/julebakgrunn.png?xxx=987778787")'); // Det som kommer bak spørsmålstegnet er bare et triks for å få til en refresh hvs du endrer bildet, altså endrer du bildet, endrer du et eller flere av siffrene
+                     $('body').css('background-image', 'url("../Content/julebakgrunn.png")');
 
                      $('#run_title').text(''); // clear
                      $('#run_title').append(message.Instance.Name + ' <small style="font-size:50%;" title="Blindtest-ID">[' + message.Instance.Id.toString() + ']</small>');
-                     if (message.Instance.IsCompleted) {
-                        var ts = message.Instance.Created.toString().replace("T", " "); // Denne er på formen "2018-12-07T18:18:26.823". Velger å fjerne evt. "T", og alt fra og med punktum
-                        if (ts.indexOf(".") != -1) {
-                           ts = ts.substring(0, ts.indexOf("."));
-                        }
 
-                        setOutText('Denne testen er avsluttet (testen ble opprettet ' + ts + ')', -1);
-                        // Det er da greit å vise resultatet av denne testen "as-is"
-                        board.server.requestResult(blind_test_id);
-                        board.server.requestScoreboard(blind_test_id);
-                        //applyAllVotes(message);
-
+                     if (message.Instance.Rounds == 0) {
+                        setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
                      } else {
-                        if (message.Instance.Rounds == 0) {
-                           setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
-                        } else {
-                           //setOutText('Hey hey - velkommen tilbake, da durer vi på videre!', message.Instance.Rounds);
-                           //setOutText('Runde ' + message.Instance.Rounds.toString() + ' er registrert.', message.Instance.Rounds);
-                           setOutText('Runde ' + getNameOfNumber(message.Instance.Rounds) + ' er registrert.', message.Instance.Rounds);
-                           
-                           board.server.requestResult(blind_test_id);
-                           if (message.Instance.Rounds > 2) {
-                              // Ingen vits i å vise dette før vi har litt data
-                              board.server.requestScoreboard(blind_test_id);
-                           }
-                           // Ved en refresh av siden må vi vurdere å vise nissen ;-)
-                           setOpacity(message.Instance.Rounds);
+                        setOutText('Hey hey - velkommen tilbake, da durer vi på videre!', message.Instance.Rounds);
+                        board.server.requestResult(blind_test_id);
+                        if (message.Instance.Rounds > 2) {
+                           // Inge vits i å vise dette før vi har litt data
+                           board.server.requestScoreboard(blind_test_id);
                         }
-                        //applyAllVotes(message);
                      }
+                     applyAllVotes(message);
                   } else {
+                     //$('#warning').text(message.Error);
                      setWarning(message.Error);
                   }
                } else {
+                  //$('#warning').text(message.Error);
                   setWarning(message.Error);
                }
             } else {
-               setWarning("Fant ingen blindtest med denne ID-en.");
+               //$('#warning').text("Fant ingen run med denne ID-en.");
+               setWarning("Fant ingen run med denne ID-en.");
             }
             $('#reg_no_btn').prop('disabled', false);
          };
 
-         // Når en har registrert stemmene for en runde, vil serveren etterhvert kalle denne funksjonen
          board.client.pollApplyVotesResponse = function (message) {
             console.log(message);
             if (message != null) {
@@ -271,12 +340,9 @@
                }
                if (message.Result == "Success") {
                   if (message.Rounds == 0) {
-                     // Hmmm - dette kan da egentlig ikke kunne skje vel?? 
-                     //setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
+                     setOutText('Okey - da er vi i gang - velkommen til årets juleøltest! Er vi klare for litt birra??!!', 0);
                   } else {
-                     //setOutText('Runde ' + message.Rounds.toString() + ' er registrert.', message.Rounds);
-                     setOutText('Runde ' + getNameOfNumber(message.Rounds) + ' er registrert.', message.Rounds);
-                     // Vi viser her gradvis nissen
+                     setOutText('Runde ' + message.Rounds.toString() + ' er registrert.', message.Rounds);
                      setOpacity(message.Rounds);
                   }
                   clearVoteTableAndHideIt();
@@ -291,6 +357,7 @@
                      board.server.requestScoreboard(message.BlindTestId);
                   }
                } else {
+                  //$('#warning').text(message.Error);
                   setWarning(message.Error);
                }
             }
@@ -329,6 +396,7 @@
             console.log(message);
             // denne skal fjernes etterhvert
             if (message != null) {
+               //$('#warning').text("Disconnected user(s): " + message);
                setWarning("Disconnected user(s): " + message);
             }
          };
@@ -340,6 +408,8 @@
                   // Meldingen er ikke til meg
                   return;
                }
+               //$('#warning').text("Received a vote: Blindtest Id = " + message.BlindTestId + ", BrukerID: " + message.ParticipantId.toString());
+               //setWarning("Received a vote: Blindtest Id = " + message.BlindTestId + ", BrukerID: " + message.ParticipantId.toString());
                // A row is on this form
                // <tr><td><img src="../avatar/avatar_10.png" /></td><td>Robin</td></tr>
                // The id is in the form: v_<BlindTestId>_<ParticipantId>
@@ -363,6 +433,16 @@
             // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
             $("#current_votes_table").find("tr:gt(0)").remove();
             setOpacity(1);
+
+
+            // TEST
+            $('#robin_btn').click(function () {
+               //$('#rudolf').css({ "opacity": "1" });
+               board.server.getDummyData();
+               //let data = '[{"data": [{"name":"1. pl - Hansa juleøl (ABV: 6.5%)"," score":5.00},{"name":"1. pl - Something (ABV: 6.5%)"," score":5.00},{"name":"3. pl - Dummy (ABV: 2.0%)"," score":4.33},{"name":"4. pl - test (ABV: 7.0%)"," score":4.00},{"name":"4. pl - jalla-2 (ABV: 8.0%)"," score":4.00},{"name":"6. pl - Humlespesial (ABV: 8.0%)"," score":3.50},{"name":"7. pl - hansa (ABV: 6.0%)"," score":2.33},{"name":"8. pl - jalla (ABV: 5.0%)"," score":2.00}],"yAxesMin":1.50}]';
+               //let ff = JSON.parse(data);
+
+            });
 
             // Sett opp en del on-click handlers:
             $('#reg_no_btn').click(function () {
@@ -446,31 +526,7 @@
             case 13: text = "trettende"; break;
             case 14: text = "fjortende"; break;
             case 15: text = "femtende"; break;
-            default: text = value.toString() + ".";
-         }
-         return text;
-      }
-
-      function getNameOfNumber(value) {
-         let text = "";
-         switch (value) {
-            case 0: text = "null"; break;
-            case 1: text = "en"; break;
-            case 2: text = "to"; break;
-            case 3: text = "tre"; break;
-            case 4: text = "fire"; break;
-            case 5: text = "fem"; break;
-            case 6: text = "seks"; break;
-            case 7: text = "syv"; break;
-            case 8: text = "åtte"; break;
-            case 9: text = "ni"; break;
-            case 10: text = "ti"; break;
-            case 11: text = "elleve"; break;
-            case 12: text = "tolv"; break;
-            case 13: text = "tretten"; break;
-            case 14: text = "fjorten"; break;
-            case 15: text = "femten"; break;
-            default: text = value.toString();
+            default: text = value.toString(); + ".";
          }
          return text;
       }
@@ -483,6 +539,8 @@
             $('#warning').text('');
             $('#warning').prop('hidden', true);
          }
+
+
       }
 
       function getImageNumber(user_id) {
@@ -507,9 +565,9 @@
          max = Math.floor(max);
          return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-      /*
+
       function applyAllVotes(message) {
-         //console.log(message);
+         console.log(message);
          if ((message != null) && (message.Instance.CurrentVotes != null) && (message.Instance.CurrentVotes.length > 0)) {
 
             // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
@@ -531,7 +589,7 @@
             $('#current_votes').prop('hidden', false); // Show the current vote table vote
          }
       }
-      */
+
       function clearVoteTableAndHideIt() {
          // Fjern rader med id større enn 0, det vil i praksis si alle rader utenom headeren
          $("#current_votes_table").find("tr:gt(0)").remove();
@@ -539,14 +597,13 @@
       }
 
       function setOutText(message, rounds) {
-         // Hvis rounds er negativ betyr det at testen er over, da legger vi ikke på "hentemelding"
-         let txt = message + ((rounds < 0) ? "" : ("\nHvem er klar for å hente øl til " + getNumberAsText(rounds + 1) + " runde?"));
-         //txt = txt + '\nNår ølet er drukket, må hver enkelt sende inn sin stemme fra sitt "stemmeavlukke".';
+
+         let txt = message + "\nHvem er klar for å hente øl til " + getNumberAsText(rounds + 1) + " runde?";
+         txt = txt + '\nNår ølet er drukket, må hver enkelt sende inn sin stemme fra sitt "stemmeavlukke".';
          let obj = $('#command_id').text(txt);
          // Erstatt \n med <br/>
          obj.html(obj.html().replace(/\n/g, '<br/>'));
       }
-
       var myList = [{ "Rank": 2, "Merke": "Humlespesial", "ABV": 8.0, "Snitt": 3.50, "Robin": 4, "Tusa": 3 }, { "Rank": 3, "Merke": "Hansa juleøl", "ABV": 6.5, "Snitt": 5.00, "Robin": 6, "Tusa": 4, "Rusa": 5 }, { "Rank": 1, "Merke": "hansa", "ABV": 6.0, "Snitt": 2.30, "Robin": 1, "Tusa": 3, "Rusa": 3 }, { "Rank": 3, "Merke": "Something", "ABV": 6.5, "Snitt": 5.00, "Robin": 6, "Tusa": 4, "Rusa": 5 }];
       var myList0 = [
          {
